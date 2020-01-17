@@ -67,7 +67,7 @@ namespace Mercado.Controllers
 
 
 
-                return Json("alterado");
+                return Json("True");
                 
 
 
