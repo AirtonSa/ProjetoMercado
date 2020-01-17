@@ -75,7 +75,7 @@ namespace Mercado.Controllers
             }
             else
             {
-                return Json("False");
+                return Json("Altera");
             }
 
             
