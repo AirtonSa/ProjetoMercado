@@ -50,7 +50,7 @@ namespace Mercado.Controllers
                 if (1 == 1)
                 {
                     var lista = estoqueRepository.BuscarListaEstoque();
-                    //var msg = "Já existe no estoque";
+                    var msg = "Já existe no estoque";
                     //@ViewBag.msg = msg;
                 }
                 //else
