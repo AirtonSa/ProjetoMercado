@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Cadastrar no Estoque</h1>
+<div id="cadastrar">
+    <form action="/Estoque/CadastrarEstoque">
+        <div>
+            <label> Quantidade</label>
+            <input name="Quantidade" class="form-control" id="exampleInputPassword1" placeholder="Quantidade do produto">
+
+        </div>
+
+        <div>
+            <label>Produto</label>
+            <input name="Produto" class="form-control" id="exampleInputPassword2" placeholder="Nome do produto">
+        </div><br>
+
+        <button>Cadastrar</button>
+
+    </form>
+
+
+</div>
+
+
+@model List<Produto>
+
+@if (Model != null && Model.Count > 1)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th escope="col">#</th>
+                <th escope="col"> Nome do Produto</th>
+                <th escope="col">Valor</th>
+                <th escope="col">Quantidade</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                var t = 0;
+            }
+            @foreach (var i in Model)
+            {
+                t++;
+
+                <tr>
+                    <td>@t</td>
+                    <td hidden="hidden">@i.Id</td>
+                    <td>@i.Nome</td>
+                    <td>@i.Preco</td>
+
+                    <td>
+                        <button id="Menos" onclick="Decrementar(this)"> - </button><input name="Quantidade" value="0" class="inpuQtd" /><button id="Mais" onclick="Incrementar(this)">+</button>
+                    </td>
+                    <td>
+                        <button id="Atzr" onclick="Atualizar(this)"> Atualizar </button>
+                    </td>
+                </tr>
+
+
+
+            }
+
+
+
+        </tbody>
+
+    </table>
+
+
+
+
+
+
+}
+else
+{
+
+    <p>Nenhuma reserva Encotrada</p>
+
+}
+@section Scripts{
+    <script>
+
+        $("#cadastrar").hide();
+
+        $("#Maiss").click(function () {
+            debugger;
+            var input = $(".inpuQtd").val();
+            input++;
+        });
+
+        $("#Menoss").click(function () {
+            debugger
+            var input = $(".inpuQtd").val();
+            input--;
+
+        });
+
+        function Incrementar(btn) {
+            var x = $(btn).parents('td').find('input');
+            var quantidadeatualizada = parseInt(x.val());
+            quantidadeatualizada++;
+            x.val(quantidadeatualizada);
+            debugger;
+        }
+
+        function Decrementar(btn) {
+            debugger;
+            var y = $(btn).parents('td').find('input');
+            var quantidadeatualizada = parseInt(y.val());
+            quantidadeatualizada--;
+            if (quantidadeatualizada == 0) {
+                y.val(quantidadeatualizada)
+            }
+
+        }
+
+
+        function Atualizar(btn) {
+            
+
+
+
+            var tdbotao = $(btn).parents('tr');
+            
+            if (parseInt($(tdbotao).find('td:nth-child(5)').find('input').val()) > 0) {
+
+                $(btn).attr('disabled', 'true');
+
+                var produto = {
+                    Id: parseInt($(tdbotao).find("td:nth-child(2)").html())
+                }
+
+                var estoque = {
+                    Produto: produto,
+                    Quantidade: parseInt($(tdbotao).find("td:nth-child(5)").find('input').val())
+                }
+
+                $.ajax({ //inicio do ajax
+                    url: "/Estoque/CadastrarEstoque",
+                    method: 'Post',
+                    data: JSON.stringify(estoque),//joga para o metodo expecificamente no paramentro
+                    contentType: 'application/json',
+
+                    beforeSend: function () {
+                        // carregamento
+
+                    }
+
+                }).done(function (response) {
+                    debugger;
+                    if (response == "true") {
+
+                        msg = "dados enviado";
+
+                        alert(msg);
+
+                    }
+
+                })
+
+
+
+
+
+
+
+
+            } else {
+
+                alert("Quantidade tem que ser maior que 0")
+
+            }
+
+
+
+
+
+        }
+
+
+    </script>
+
+
+}

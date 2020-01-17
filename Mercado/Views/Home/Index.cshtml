@@ -1,0 +1,91 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="text-center">
+        <h1 class="display-4">Mercado</h1>
+        <p>Mercado</p>
+
+        <div class="Entrar">
+
+            <form class="Entrarform" action="Login/Acessar">
+                <label>Nome</label>
+                <input type="text" name="Nome" id="Nome" Placeholder="Digite seu Nome" /> <br />
+                <label>Senha</label>
+                <input type="text" name="Senha" id="Senha" placeholder="Senha" /> <br />
+
+                <button id="entrar" type="submit">Entrar</button> <br />
+
+
+            </form>
+            
+            <a href="/Login/CadastrarLogin" class="btn btn-primary" role="button" aria-pressed="true">Cadastrar-se</a>
+
+        </div>
+
+
+
+
+    </div>
+
+@section Scripts{ 
+    <script >
+        $("#nav").hide();
+        $("#mer").hide();
+
+        $("#entrar").hide();
+       
+        $("#Nome").on('blur', function () {
+            var nome = $('#Nome').val();
+            var senha = $('#Senha').val();
+                
+            debugger;
+            if (this.val != "" && $('#Senha').val() != "") {
+                
+                
+                $('#entrar').show();
+                
+            } else {
+                $('#entrar').hide();
+                
+            }
+
+        });
+
+        $("#Senha").on('keyup', function () {
+
+            var nome = $('#Nome').val()
+            var senha = $('#Senha').val();
+            debugger;
+            if (this.val != "" && $('#Nome').val() != "") {  //se senha e nome não for vazio
+                
+                $('#entrar').show(); //aparece
+                
+            } else {
+
+                $('#entrar').hide(); //esconde
+            }
+
+        });
+
+       
+        
+
+
+
+
+
+
+
+    </script>
+
+
+
+
+
+
+
+}
+
+
+

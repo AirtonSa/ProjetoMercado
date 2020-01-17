@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using Mercado.Models
+
+@model List<Produto>
+<h1>Index</h1>
+
+@if (Model != null && Model.Count > 0) {
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th scope="col">#</th>
+            <th scope="col">Nome Produto</th>
+            <th scope="col">Preço</th>
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            var t = 0;
+        }
+        @foreach (var i in Model)
+        {
+            t++;
+
+            <tr>
+                <td>@t</td>
+                <td> @i.Nome</td>
+                <td>@i.Preco</td>
+
+            </tr>
+        }
+
+    </tbody>
+
+
+
+
+</table>
+    
+
+
+
+}
+else
+{
+
+    <p>Nenhuma reserva encontrada</p>
+
+}
+<div>
+    <a id="FechaRsv" asp-controller="Produto" asp-action="CadastrarProduto"
+       class="btn btn-success">Adicionar Produto</a>
+</div>
+<br />
+<div>
+    <button id="MostrarForm"
+       class="btn btn-success">CadastrarProdutoforma2</button>
+</div>
+
+<div id="FormCadastro" class="text-center">
+    <h1 class="display-4">Cadastrar Usuario</h1>
+    <br />
+    <form action="/Produto/ConfirmarCadastro">
+
+        <div class="form-group testt botaologin">
+            <label for="exampleInputPassword1">Nome</label>
+            <input name="Nome" class="form-control" id="exampleInputPass" placeholder="Nome Completo">
+        </div>
+
+
+  
+
+        <div class="form-group testt botaologin">
+            <label for="exampleInputPassword1">Preço</label>
+            <input name="Preco" class="form-control" id="exampleInputPassw" placeholder="Senha">
+        </div>
+        <button>Cadastrar</button>
+    </form>
+
+
+</div>
+
+@section Scripts{ 
+<script>
+    $('#FormCadastro').hide();
+
+    $('#MostrarForm').click(function () {
+        debugger;
+
+
+        $('#FormCadastro').show();
+        debugger;
+    });
+</script>
+}
