@@ -76,8 +76,7 @@ body {
     align-items: center;
     flex-direction: column;
     width: 100%;
-    
-    
+    padding: 70px 0;
 }
 .Entrarform {
     display: flex;    
@@ -98,6 +97,22 @@ body {
 }
 .inpuQtd{
     width: 50px;
+    line-height: 28px;
+    border-right: 10px;
+    text-align: center;
+}
+#btnestoque {
+   margin-left: 500px;
+   
+}
+ 
 
+.btn {
+    border-radius: 50px
+}
+
+input{
+
+    border-radius: 10px;
 }
 

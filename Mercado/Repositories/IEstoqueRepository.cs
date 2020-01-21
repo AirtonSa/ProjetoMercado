@@ -21,6 +21,10 @@ namespace Mercado.Repositories
 
         public Estoque BuscarPorID(int id);
 
-       
+        public Estoque BuscarEstoque(Produto produto);
+
+        public List<Estoque> GetByIdProduto(int idProduto);
+
+
     }
 }

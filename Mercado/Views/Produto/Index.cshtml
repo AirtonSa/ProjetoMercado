@@ -6,7 +6,7 @@
 @using Mercado.Models
 
 @model List<Produto>
-<h1>Index</h1>
+<h1>Produtos</h1>
 
 @if (Model != null && Model.Count > 0) {
 
@@ -61,7 +61,7 @@ else
 <br />
 <div>
     <button id="MostrarForm"
-       class="btn btn-success">CadastrarProdutoforma2</button>
+       class="btn btn-success" >CadastrarProdutoforma2</button>
 </div>
 
 <div id="FormCadastro" class="text-center">
@@ -98,5 +98,8 @@ else
         $('#FormCadastro').show();
         debugger;
     });
+
+    $("#MostrarForm").hide();
+
 </script>
 }

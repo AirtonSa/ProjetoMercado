@@ -4,7 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Cadastrar no Estoque</h1>
+<h1>Cadastrar Estoque</h1>
+<br>
+
 <div id="cadastrar">
     <form action="/Estoque/CadastrarEstoque">
         <div>
@@ -37,6 +39,7 @@
                 <th escope="col"> Nome do Produto</th>
                 <th escope="col">Valor</th>
                 <th escope="col">Quantidade</th>
+                <th escope="col"></th>
             </tr>
         </thead>
 
@@ -55,22 +58,26 @@
                     <td>@i.Preco</td>
 
                     <td>
-                        <button id="Menos" onclick="Decrementar(this)"> - </button><input name="Quantidade" value="0" class="inpuQtd" /><button id="Mais" onclick="Incrementar(this)">+</button>
+                        <button id="Menos" class="btn btn-primary" onclick="Decrementar(this)"> - </button><input name="Quantidade" value="0" class="inpuQtd" /><button id="Mais" class="btn btn-primary" onclick="Incrementar(this)">+</button>
                     </td>
                     <td>
-                        <button id="Atzr" onclick="Atualizar(this)"> Atualizar </button>
+                        <button id="Atzr" class="btn btn-primary" onclick="Atualizar(this)"> Atualizar </button>
                     </td>
                 </tr>
 
 
 
+
             }
-
-
-
         </tbody>
 
     </table>
+
+    <div>
+        <button id="btnestoque" class="btn btn-primary" onclick="AtualizarTudoEstoque(this)">atualizar tudo</button>
+    </div>
+
+
 
 
 
@@ -123,12 +130,12 @@ else
 
 
         function Atualizar(btn) {
-            
+
 
 
 
             var tdbotao = $(btn).parents('tr');
-            
+
             if (parseInt($(tdbotao).find('td:nth-child(5)').find('input').val()) > 0) {
 
                 $(btn).attr('disabled', 'true');
@@ -154,36 +161,87 @@ else
                     }
 
                 }).done(function (response) {
-                    debugger;
-                    if (response == "true") {
 
-                        msg = "dados enviado";
+                    if (response == "msg") {
+
+                        var msg = "Quantidade de estoque atualizado";
 
                         alert(msg);
 
+
                     }
+
+
+                }).fail(function (jqXHR, textStatus, msg) {
+
+                    var msg = "Estoque não atualizado";
+
+                    alert(msg);
 
                 })
 
-
-
-
-
-
-
+                $(btn).removeAttr('disabled');
+                debugger;
 
             } else {
 
                 alert("Quantidade tem que ser maior que 0")
 
             }
+            
+
+            
+        }
+        function AtualizarTudoEstoque(btn) {
 
 
+            var pegarInput = $(".table").find('tbody').find('tr').find('.inpuQtd');
+            
+            var listaEStoque = [];
+            pegarInput.each(function () {
+
+                var pegarQuantidade = parseFloat($(this).val());
+                
+                if (pegarQuantidade > 0) {
+
+                    var x = $(this).parents('tr');
+
+
+                    
+                    var EstoqueTudo = {
+
+                        IdProduto: parseFloat($(x).find('td:nth-child(2)').html()),
+                        Quantidade: parseFloat($(this).val()),
+
+
+                    }
+
+                    listaEStoque.push(EstoqueTudo);
+                }
+
+            })
+            if (listaEStoque.length > 0) {
+
+                $.ajax({
+                    url: 'Estoque/SalvarListaDeEstoque/',
+                    method: 'PoST',
+                    data: JSON.stringify(listaEStoque),
+                    contentType: 'application/json',
+                      
+                }).done(function (msg) {
+                    
+                    alert(msg);
+                    
+                })
+
+            }         
+            pegarInput.val(0);
+           
+           
 
 
 
         }
-
 
     </script>
 

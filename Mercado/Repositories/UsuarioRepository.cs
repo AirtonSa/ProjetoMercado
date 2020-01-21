@@ -16,7 +16,7 @@ namespace Mercado.Repositories
 
         public void SalvarUsuario(Usuario usuario)
         {
-           
+
 
             if (usuario.Id > 0)
             {
@@ -39,26 +39,26 @@ namespace Mercado.Repositories
 
                 return usuario;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return new Usuario();
             }
-           
+
 
         }
 
-        public Usuario PorNome(Usuario usuario ) //essa é outa forma de ver se o usuario é existente
+        public Usuario PorNome(Usuario usuario) //essa é outa forma de ver se o usuario é existente, buscando pela propriedade nome
         {
-                var usuarioencon = dbSet.Where(x => x.Nome == usuario.Nome && x.Senha ==  usuario.Senha).FirstOrDefault();
-                
-                if(usuarioencon != null)
-                {
-                    return usuarioencon;
-                }
-                else
-                {
-                    return usuarioencon;
-                }
+            var usuarioencon = dbSet.Where(x => x.Nome == usuario.Nome && x.Senha == usuario.Senha).FirstOrDefault();
+
+            if (usuarioencon != null)
+            {
+                return usuarioencon;
+            }
+            else
+            {
+                return usuarioencon;
+            }
         }
 
         public bool ExisteUsuario(Usuario usuario) //varifica se o usuario é existente  (verdadeiro ou falso)
@@ -73,10 +73,24 @@ namespace Mercado.Repositories
             {
                 return true; //existe
             }
-            
+
         }
 
-        
-        
+        public Usuario BuscarUsuarioporId(int id) //busca pelo ID //1
+        {
+            var usuarioporid = dbSet.Where(p => p.Id == id).FirstOrDefault();
+            if (1 == 1)
+            {
+                return usuarioporid;
+            }
+
+        }
+
+       
     }
 }
+
+
+
+
+

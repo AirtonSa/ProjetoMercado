@@ -33,7 +33,7 @@
             </tbody>
         </table>
 
-        <button id="Selecionar">Buscar</button>
+        <button class="btn btn-success" id="Selecionar">Buscar</button>
     </div>
 
 
@@ -103,12 +103,12 @@
             </tbody>
         </table>
         <div id="Total">
-            Valor Total: R$<span id="ValorTotal">0</span>
+            Valor Total: R$<span id="ValorTotal">0.00</span>
         </div>
 
 
-        <button id="Edit">Editar</button>
-        <button id="Comprado">Comprar</button>
+        <button class="btn btn-warning" id="Edit">Editar</button>
+        <button class="btn btn-success" id="Comprado">Comprar</button>
 
 
 
@@ -118,10 +118,7 @@
 
 </div>
 
-<div>
-    <a id="FechaRsv" asp-controller="Vendas" asp-action=""
-       class="btn btn-success">Vendas</a>
-</div>
+
 
 @section Scripts{
     <script>
@@ -165,9 +162,9 @@
                         var col3 = $('<td>').attr('class', 'valor');//---#--- preco
                         var col4 = $('<td>');
 
-                        var botao = $('<button>').html('Selecionar').attr('onclick', 'teste(this)').attr('class', 'selecionar');
+                        var botao = $('<button>').html('Selecionar').attr('onclick', 'teste(this)').attr('class', 'btn btn-success selecionar');
 
-                        col1.html(this.id); //inclui o valor na coluna
+                        col1.html(this.id).attr('class', 'IdProduto');; //inclui o valor na coluna
                         col2.html(this.nome);
                         col3.text(this.preco.duasCasas());
                         Linha.attr('item-id', col3.text());
@@ -189,21 +186,6 @@
 
 
 
-
-
-
-                    //lista.each(function () {
-                    //    var Body = $('#TabProd').find('tbody');
-                    //    var primeiraposicao = this.val();
-                    //    var Linha = $('<tr>');
-                    //    debugger;
-
-                    //})
-                    //if (msg == "O campo produto não pode ser nulo") {
-                    //    alert(JSON.stringify(msg));
-                    //} else {
-                    //    alert(JSON.stringify(msg));
-                    //}
                 })
                 .fail(function (jqXHR, textStatus, msg) {
 
@@ -292,56 +274,11 @@
 
             })
 
-
-            function testeteste() {
-
-
-
-                //var x = tds.val();
-                //debugger;
-                //var tds2 = linha2.find('[td]');
-                //var tr = $(btn).closest('tr');
-                //var rrr = $(tr);
-
-                //tds.each(function (x,y) {
-                //    var r = $(this).val();
-                //    debugger;
-
-                //})
-
-                //$.each(linha, function () {
-
-                //    var valor = $(this).val();
-                //    debugger;
-                //})
-
-                //$.each(tds, function () {
-
-                //    var valor = $(this).val();
-                //    debugger;
-                //})
-
-                //  $.each(linha2, function () {
-
-                //    var valor = $(this).val();
-                //    debugger;
-                //  })
-                //  $.each(tds2, function () {
-
-                //    var valor = $(this).val();
-                //    debugger;
-                //})
-
-                debugger;
-            }
-
-
-
             var Body = $('#TabVenda').find('tbody'); //esse
 
             //var novatr = $("<tr>");
             var novatd = $("<td>");
-            var campoqtd = $("<input>").attr('onblur', 'Calcular(this)').attr('class', 'Quantidade');
+            var campoqtd = $("<input>").attr('onblur', 'Calcular(this)').attr('class', 'Quantidade').css('width', '45px').val('1');
             novatd.append(campoqtd);
             //novatr.append(novatd);
             linha.append(novatd);
@@ -357,7 +294,7 @@
 
             tds.each(function () {
                 var item = $(this).text();
-                debugger;
+
             })
 
             for (var i = 0; i < itens.length; i++) {
@@ -368,138 +305,150 @@
             }
 
 
+            $("#Edit").attr('disabled', 'false');
+            $("#Comprado").attr('disabled', 'false');
+        }
 
+        function CalculoTotal() {
+            var Body = $('#TabVenda').find('tbody').find("td").find('input');
+            $('#ValorTotal').html('0,00');
 
-            tds.each(function () {
-                var x = $(this).html();
-                debugger;
-
-
-
-
-                //var precoAtual = parseFloat($("#ValorTotal").text());
-                //var preco = parseFloat(self.closest("tr").find("#Total").text());
-                //var precoTotal = precoAtual + preco;
-                //$("#ValorTotal").text(precoTotal);
-
-
-
+            Body.each(function () {
+                var Total = parseFloat($('#ValorTotal').html().replace(',', '.'));
+                
+                var quantidade = parseFloat($(this).val());
+                var valor = parseFloat($(this).parents('tr').find('td.valor').html().replace(',', '.'));
+                var multiplicacao = parseFloat(quantidade * valor);
+                Total += multiplicacao;
+                $('#ValorTotal').html(Total.toFixed(2))
+               
             })
 
-            $("#Edit").attr('disabled', 'false');
         }
 
         function Calcular(InputValorDigitado) {
 
+            //if (1 == 1) {
 
-
-
-            //var valor = $(InputValorDigitado).val();
-
-            ////// parent pega da mesma tr, parents pega de toda a tbody
-            //var qtddigitada = parseFloat($(InputValorDigitado).val());
-            //////var multiplica = $(qtddigitada).val();
-            //var valordalinha = $(InputValorDigitado).parent('td').parent('td').find('.total').text();
-            //var x = $('.total').text();
-            //var classe = $(InputValorDigitado).attr('class');
-            //var u = $(InputValorDigitado).parent('.total').text();
-            //debugger;
-            //console.log();
-            //var multiplica2 = parseFloat($('').text());
-            //var calcular = parseFloat(qtddigitada * multiplica2);
-            //console.log(calcular);
-
-
-
-
-
+            //    CalculoTotal();
+            //}
+            //else {
 
 
 
             var Body = $('#TabVenda').find('tbody').find("td");
-            debugger;
+
+
+
+
+
+            var qtdtr = $('#TabVenda').find('tbody').find("tr").length;
+
+            var TrAtual = $(InputValorDigitado).parents('tr');
+            var posicaoTrAtural = TrAtual[0].rowIndex;
+
+
+
 
             var v = "";
             var aux = 0;
+            var IdProduto = parseFloat($(TrAtual).find("td:nth-child(1)").html());;
+            $(InputValorDigitado).attr('disabled', 'false');
 
-            //var array = new [];
+            var valortotal = parseFloat($("#ValorTotal").text());
+            var qtddigitada = parseFloat($(InputValorDigitado).val());
+            var valorlinha2 = parseFloat($(TrAtual).find("td:nth-child(3)").html().replace(',', '.'));
+            var multiplica = parseFloat(qtddigitada * valorlinha2);
+            aux += multiplica;
+            $("#ValorTotal").text(aux.toFixed(2));
+
+            var EstoqueViewModel = {
+                IdProduto: IdProduto,
+                Quantidade: qtddigitada
+            }
+
+            if (1 == 1) {
+                ///Estoque/VerificaEstoqueProduto
+
+                $.ajax({
+                    url: '/Estoque/VerificaEstoqueProduto',
+                    method: 'Post',
+                    data: JSON.stringify(EstoqueViewModel),
+                    contentType: 'application/json',
+
+                    beforeSend: function () {
 
 
-            Body.each(function () {
+                    }
 
-                var l = $(this).html();
-                var q = $(this).find('input').attr('class');
-                var pegarvalor = $(this).attr('class');
+                }).done(function (response) {
 
-                debugger;
-                if (q == 'Quantidade') {
 
-                    if ($(this).find('input').val() != "") {
+
+                    if (!response.possueEstoque) {
+
+                        var novatd = $("<td>").html("Sem Estoque " + response.saldo);
+
+                        var novatdbtn = $("<td>");
+
+                        var botao = $("<button>").html('Excluir').attr('onclick', 'Excluir(this)').Attr('class' , 'btn btn-success');
+
+                        novatdbtn.append(botao);
+
+                        TrAtual.append(novatd);
+
+                        TrAtual.append(novatdbtn);
+
+                        CalculoTotal();
+                        debugger;
+                        //TrAtual.attr('style','background:Red');
+                        $("#Edit").removeAttr('disabled');
+                        $("#Comprado").attr('disabled', 'false');
                         debugger;
 
-                        $(this).find('input').attr('disabled', 'false');
-                        var valortotal = parseFloat($("#ValorTotal").text());
-                        var qtddigitada = parseFloat($(this).find('input').val());
-                        var valorlinha2 = parseFloat(v.replace(',', '.'));
-                        var multiplica = parseFloat(qtddigitada * valorlinha2);
-                        aux += multiplica;
-                        $("#ValorTotal").text(aux.toFixed(2));
+
 
                     }
                     else {
+                        CalculoTotal();
+                        debugger;
+                        $("#Comprado").attr('disabled', 'false');
 
-                        alert("verifique se os campos quantidades estão devidamente preenchidos");
-                        $('#Comprado').focus();
-                        // jQuery.ar
+
+                        debugger;
+                        if (qtdtr == posicaoTrAtural) {
+                            var x = 0;
+                            debugger;
+                            //var criarumatd = $('<td>');
+                            //var acrescentarbtn = $('<button>').html('botao');
+                            //criarumatd.append(acrescentarbtn);
+                            //TrAtual.append(criarumatd);
+
+                            var botao = $('#TabVenda').find('tbody').find('tr').find('button').html();
+                            debugger;
+                            if (botao == "Excluir") {
+                                debugger;
+                                $("#Comprado").attr('disabled', 'true');
+
+                            } else {
+                                
+                                $("#Comprado").removeAttr('disabled');
+                                debugger;
+                            }
+                            
+
+
+                        }
 
                     }
-                };
-
-
-
-                //if (q == "Quantidade") {
-                //     debugger;
-
-
-                //     qtd = parseFloat($(this).html());
-
-                //     var inp = parseFloat($(this).find('input').val());
-                //     debugger;
-                //     if ($(this).find('input').val() != "") {
-                //         //var valortotalinicio = parseFloat($("#ValorTotal").text());
-                //         //$("#ValorTotal").text("0");
-                //         var input = $(this).find('input').val();
-
-                //         var multiplica_qtd_e_valor = parseFloat(input * parseFloat(v.replace(',', '.')).toFixed(2));
-                //         debugger;
-                //         //var valortotal = parseFloat($("#ValorTotal").text()) + multiplica_qtd_e_valor;
-                //         //$("#ValorTotal").text(valortotal);
-                //         //if (valortotalinicio == valortotal) {
-                //         //    $("#ValorTotal").text(valortotal);
-                //         //} else {
-                //         //    $("#ValorTotal").text(valortotal + parseFloat(valortotalinicio));
-                //         //}
-
-                //        debugger;
-                //     }
-
-
-
-
-                //var somar = valor1 + parseFloat($("#ValorTotal").text());
-                if (pegarvalor == 'valor') {
-                    v = $(this).html();
-                    debugger;
-                };
-
-
-            });
+                })
+            }
 
 
             $("#Edit").attr('disabled', 'false');
 
 
-
+            // }
 
 
         };
@@ -517,17 +466,11 @@
         // }
 
         $("#Comprado").click(function () { //esse  aqui habilita input
-            //var teste1 = parseFloat($('#ValorTotal').html().toFixed(2));      
+            //var teste1 = parseFloat($('#ValorTotal').html().toFixed(2));
 
-            
-            
-            
-            
-            
 
-            debugger;
             var Body = $('#TabVenda').find('tbody').find("td").find("input");
-            debugger;
+
 
             $("#Selecionar").attr('disabled', 'false');
             $(".selecionar").attr('disabled', 'false');
@@ -537,67 +480,69 @@
 
                 if ($(this).val() != "") {
                     $(this).attr('disabled', 'false');
-                                                       
+
 
                 } else {
                     alert('Preencher todas as quantidades');
                 }
-                                             
+
             })
 
-               var lista = [];
+            var lista = [];
 
 
-                    var teste = $('#TabVenda').find('tbody').find("tr");
-                    //var lista = jQuery.makeArray(teste);
+            var teste = $('#TabVenda').find('tbody').find("tr");
+            //var lista = jQuery.makeArray(teste);
 
-                    teste.each(function () {
-
-                       
-                        var venda = {
-
-                            Idproduto: $(this).find("td:nth-child(1)").html(),
-                            valor: $(this).find("td:nth-child(3)").html(),
-                            Quantidade: $(this).find("td:nth-child(4)").find("input").val(),
-                            //valortotal: $("#ValorTotal").html().replace(',', '.'),
-                            ValorTotal: parseFloat($("#ValorTotal").html()),
-
-                        }
-                       
-                        lista.push(venda);
-                    });
-                    debugger;
-                    if (lista.length > 0) { //se a lista for > 0   .lenght
-
-                       
-
-                        $.ajax({ //inicio do ajax
-                            url: "/Vendas/AjaxVendas",
-                            method: 'Post',
-                            data: JSON.stringify(lista),//joga para o metodo expecificamente no paramentro
-                            contentType: 'application/json',
-
-                            beforeSend: function () {
-                                // carregamento
-
-                            }
-
-                        }).done(function () {
-                            debugger;
-                          // quanto retorna d controller
+            teste.each(function () {
 
 
-                        }).fail(function (jqXHR, textStatus, msg) {
+                var venda = {
 
-                            alert(msg)
-                        })
+                    Idproduto: $(this).find("td:nth-child(1)").html(),
+                    valor: $(this).find("td:nth-child(3)").html(),
+                    Quantidade: $(this).find("td:nth-child(4)").find("input").val(),
+                    //valortotal: $("#ValorTotal").html().replace(',', '.'),
+                    ValorTotal: parseFloat($("#ValorTotal").html()),
+
+                }
+
+                lista.push(venda);
+            });
+            debugger;
+            if (lista.length > 0) { //se a lista for > 0   .lenght
 
 
 
+                $.ajax({ //inicio do ajax
+                    url: "/Vendas/AjaxVendas",
+                    method: 'Post',
+                    data: JSON.stringify(lista),//joga para o metodo expecificamente no paramentro
+                    contentType: 'application/json',
 
-
+                    beforeSend: function () {
+                        // carregamento
 
                     }
+
+                }).done(function (response) { //mostrar alguma coisa;
+                    debugger;
+                    alert(msg);
+                    // quanto retorna d controller vendaajax
+
+
+                }).fail(function (jqXHR, textStatus, msg) {
+
+                    alert(msg);
+                })
+
+
+
+
+
+
+            }
+
 
 
         });
@@ -631,9 +576,38 @@
 
 
         });
+        function Excluir(btn) {
 
 
+            var pegarBody = $('#TabVenda').find('tbody');
+            debugger;
+            $(btn).parents('tr').remove();
+            var pegarvalor = parseFloat($(btn).parents('tr').find('td:nth-child(3)').html().replace(',', '.'));
+            var pegarquantidade = parseFloat($(btn).parents('tr').find('td:nth-child(4)').find('input').val());
 
+            var Multiplica = parseFloat(pegarvalor * pegarquantidade).toFixed(2);
+
+            var ValorTotal = parseFloat($("#ValorTotal").text());
+            var resultado = (ValorTotal - Multiplica);
+            $('#ValorTotal').text(resultado);
+            debugger;
+
+            //$(btn).attr('disable', 'true');
+
+
+            var Body = $("#TabVenda").find('tbody').find('tr').find('td').find('button');
+            debugger;
+
+            if (Body.length == 0) {
+                $("#Comprado").removeAttr('disabled');
+                $("#Edit").removeAttr('disabled');
+            }
+
+
+        }
+
+
+                       
 
 
 

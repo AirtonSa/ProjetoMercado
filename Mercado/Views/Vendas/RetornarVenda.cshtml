@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewData["Title"] = "RetornarVenda";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @using Mercado.Models
+}
+
+@model List<Vendas>
+
+<h1>RetornarVenda</h1>
+@if (Model != null && Model.Count > 0)
+{
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Produto</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Quantidade</th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+            @{
+                var t = 0;
+            }
+            @foreach (var i in Model)
+            {
+                t++;
+
+                <tr>
+                    <td>@t</td>
+                    <td> @i.Produto.Nome</td>
+                    <td>@i.ValorTotal</td>
+                    <td>@i.quantidade</td>
+                </tr>
+            }
+
+        </tbody>
+
+
+
+
+    </table>
+
+
+
+
+
+
+}
+else
+{
+ <p>Nenhuma lista encontrada</p>
+}
+

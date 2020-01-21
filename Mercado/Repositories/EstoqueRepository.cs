@@ -89,8 +89,34 @@ namespace Mercado.Repositories
             return estoque;
                 
         }
-       
 
+        public List<Estoque> GetByIdProduto(int idProduto)
+        {
+            var lista = dbSet
+                .Include(p => p.Produto)
+                .Where(i => i.Produto.Id == idProduto).ToList();
+
+            return lista;
+
+        }
+
+        public Estoque BuscarEstoque(Produto produto)
+        {
+            var encontrar_Estoque = dbSet.Include(p=>p.Produto)
+                .Where(e => e.Produto == produto).FirstOrDefault();
+
+            if (encontrar_Estoque==null)
+            {
+                var vendavazia = new Estoque();
+                
+                return vendavazia;
+            }
+            else
+            {
+                return encontrar_Estoque;
+            }
+           
+        }
        
         
         
