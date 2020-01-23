@@ -56,6 +56,7 @@ namespace Mercado
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IVendasRepository, VendasRepository>();
             services.AddTransient<IEstoqueRepository, EstoqueRepository>();
+            services.AddTransient<ITipolancamentoRepository, TipolancamentoRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddControllersWithViews().AddRazorRuntimeCompilation();

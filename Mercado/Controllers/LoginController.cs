@@ -22,7 +22,7 @@ namespace Mercado.Controllers
         }
 
         public IActionResult Acessar(Usuario usuario)
-        {           
+        {
 
             if (usuario.Nome != null && usuario.Senha != null)
             {
@@ -41,7 +41,7 @@ namespace Mercado.Controllers
             {
                 return RedirectToAction("TesteDeError", "Home");
             }
-        
+
         }
 
         public IActionResult CadastrarLogin() //view que leva para o usuario prenceher o seu cadastro
@@ -61,10 +61,10 @@ namespace Mercado.Controllers
 
                 if (usuarioExiste)
                 {
-                   var msg = "usuario é Existente";
-                    @ViewBag.msg = msg;   
+                    var msg = "usuario é Existente";
+                    @ViewBag.msg = msg;
                 }
-                else 
+                else
                 {
                     usuarioRepository.SalvarUsuario(usuario); // criar método para salvar usuário
 
@@ -73,24 +73,58 @@ namespace Mercado.Controllers
                 }
 
             }
-            else 
+            else
             {
                 if (usuario.Nome == null)
                 {
                     var msg = "O campo nome não pode ser vazio";
                     @ViewBag.msg = msg;
                 }
-                else if(usuario.Senha == null)
+                else if (usuario.Senha == null)
                 {
-                   
+
                 }
 
-               
+
             }
 
             return View();
         }
+        [HttpPost]
+        public IActionResult JqueryAcessar([FromBody] Usuario usuario)
+        {
+            var novousuario = new Usuario();
 
-        
+            novousuario.Nome = usuario.Nome;
+            novousuario.Senha = usuario.Senha;
+
+
+            var msg = "";
+
+            if (novousuario.Nome != null && novousuario.Senha != null)
+            {
+
+
+                var existe = usuarioRepository.UsuarioExiste(novousuario);
+
+                if (existe)
+                {
+                    msg = "Usuario existente use esqueci minha senha";
+                }
+                else
+                {
+                    usuarioRepository.SalvarUsuario(novousuario);
+
+                    msg = "Usuario Salvo";
+                }
+
+            }
+            else
+            {
+                msg = "Usuario Nao salvo";
+            }
+
+            return Json(msg);
+        }
     }
 }

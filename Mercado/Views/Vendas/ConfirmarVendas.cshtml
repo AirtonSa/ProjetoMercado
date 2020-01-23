@@ -391,7 +391,7 @@
 
                         var novatdbtn = $("<td>");
 
-                        var botao = $("<button>").html('Excluir').attr('onclick', 'Excluir(this)').Attr('class' , 'btn btn-success');
+                        var botao = $("<button>").html('Excluir').attr('onclick', 'Excluir(this)').attr('class' , 'btn btn-success');
 
                         novatdbtn.append(botao);
 
@@ -525,7 +525,7 @@
 
                     }
 
-                }).done(function (response) { //mostrar alguma coisa;
+                }).done(function (msg) { //mostrar alguma coisa;
                     debugger;
                     alert(msg);
                     // quanto retorna d controller vendaajax

@@ -117,7 +117,23 @@ namespace Mercado.Repositories
             }
            
         }
-       
+
+        public void SalvarListaEstoque(List<Estoque> lista)
+        {
+            if(lista.Count() > 0)
+            {
+                dbSet.AddRange(lista);            
+                context.SaveChanges();
+
+            }
+            else
+            {
+                dbSet.UpdateRange(lista);
+                context.SaveChanges();
+            }
+
+            
+        }
         
         
         

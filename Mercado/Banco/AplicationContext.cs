@@ -24,10 +24,12 @@ namespace Mercado.Banco
             modelBuilder.Entity<Vendas>().HasKey(t => t.Id);
             modelBuilder.Entity<Vendas>().HasOne(t => t.Usuario);
             modelBuilder.Entity<Vendas>().HasOne(t => t.Produto);
+            
 
             modelBuilder.Entity<Estoque>().HasKey(t => t.Id);
             modelBuilder.Entity<Estoque>().HasOne(t => t.Produto);
             modelBuilder.Entity<Estoque>().HasOne(t => t.Usuario);
+            modelBuilder.Entity<Estoque>().HasOne(t => t.TipoLancamento);
 
             //modelBuilder.Entity<Usuario>().HasMany(t=>t.res)
 

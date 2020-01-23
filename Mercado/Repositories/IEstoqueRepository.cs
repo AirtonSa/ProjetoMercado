@@ -25,6 +25,9 @@ namespace Mercado.Repositories
 
         public List<Estoque> GetByIdProduto(int idProduto);
 
+        public void SalvarListaEstoque(List<Estoque> lista);
+
+
 
     }
 }

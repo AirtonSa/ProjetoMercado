@@ -86,6 +86,22 @@ namespace Mercado.Repositories
 
         }
 
+        public bool UsuarioExiste(Usuario usuario)
+        {
+
+            var VerificarUsuario = dbSet.Where(u => u.Nome == usuario.Nome).FirstOrDefault();
+
+            if (VerificarUsuario != null)
+            {
+                return true;
+            }
+            else
+            {              
+                return false;
+            }
+
+            
+        }
        
     }
 }

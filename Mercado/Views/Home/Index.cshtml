@@ -2,53 +2,119 @@
     ViewData["Title"] = "Home Page";
 }
 
-    <div class="text-center">
-        
-        
-
-        <div class="Entrar">
-            <h1 class="display-4">Mercado</h1>
-
-            <form class="Entrarform" action="Login/Acessar">
-                <label>Nome</label>
-                <input type="text" name="Nome" id="Nome" value="Master" Placeholder="Digite seu Nome" /> <br />
-                <label>Senha</label>
-                <input type="password" name="Senha" id="Senha" value="123" placeholder="Senha" /> <br />
-
-                <button id="entrar" class="btn btn-success" type="submit">Entrar</button> <br />
+<div class="text-center">
 
 
-            </form>
 
-            <a href="/Login/CadastrarLogin" class="btn btn-success" role="button" aria-pressed="true">Cadastrar-se</a>
+    <div class="Entrar">
+        <h1 class="display-4">Mercado</h1>
 
-        </div>
+        <form id="Formulario" class="Entrarform" action="Login/Acessar">
+            <label>Nome</label>
+            <input type="text" name="Nome" id="Nome" value="Master" Placeholder="Digite seu Nome" /> <br />
+            <label>Senha</label>
+            <input type="password" name="Senha" id="Senha" value="123" placeholder="Senha" /> <br />
+
+            <button id="entrar" class="btn btn-success" type="submit">Entrar</button> <br />
 
 
+        </form>
+
+        <a id="cadastrar" class="btn btn-success" role="button" aria-pressed="true">Cadastrar-se</a>
+
+        @*href="/Login/CadastrarLogin"*@
 
 
     </div>
 
-@section Scripts{ 
-    <script >
+
+
+</div>
+
+@section Scripts{
+    <script>
+
+
+        $('#cadastrar').click(function () {
+
+            $('#cadastrar').hide();
+            $('#Formulario').hide();
+
+            var formulario = $('<form>').addClass('Entrarform');
+            $('.Entrar').append(formulario);
+
+            var nome = $('<label>').html('Nome');
+            var Novoinput = $('<input>').attr('placeholder', 'digite seu Nome').attr('id', 'inputNome');
+            var senha = $('<label>').html('Senha');
+            var input2 = $('<input>').attr('placeholder', 'digite sua senha').attr('type', 'password').attr('id', 'inputSenha');
+            var espaco = $('<br/>');
+            var btn = $('<button>');
+
+            $(btn).html('cadastrar').attr('onclick', 'ss()');
+
+            $(formulario).append(nome);
+
+
+            $(formulario).append(Novoinput);
+
+            $(formulario).append(senha);
+
+            $(formulario).append(input2);
+            $(formulario).append(espaco);
+
+            $('.Entrar').append(btn);
+
+
+
+        });
+
+
+        function ss() {
+            debugger;
+
+
+            if ($('#inputNome').val() != null && $('#inputSenha').val() != null) {
+
+                var dadosUsusario =
+                {
+                    Nome: $('#inputNome').val(),
+                    Senha: $('#inputSenha').val(),
+                }
+                debugger;
+                $.ajax({
+                    url: '/Login/JqueryAcessar',
+                    type: 'POST',
+                    data: JSON.stringify(dadosUsusario),
+                    contentType: 'application/json'
+                }).done(function (msg) {
+                    
+                    alert(msg);
+                    debugger;
+                });
+
+
+            }
+            
+        }
+
         $("#nav").hide();
         $("#mer").hide();
 
         $("#entrar").hide();
-       
+
         $("#Nome").on('blur', function () {
             var nome = $('#Nome').val();
             var senha = $('#Senha').val();
-                
+
             debugger;
             if (this.val != "" && $('#Senha').val() != "") {
-                
-                
+
+
                 $('#entrar').show();
-                
+
             } else {
                 $('#entrar').hide();
-                
+
             }
 
         });
@@ -59,9 +125,9 @@
             var senha = $('#Senha').val();
             debugger;
             if (this.val != "" && $('#Nome').val() != "") {  //se senha e nome não for vazio
-                
+
                 $('#entrar').show(); //aparece
-                
+
             } else {
 
                 $('#entrar').hide(); //esconde
@@ -69,8 +135,8 @@
 
         });
 
-       
-        
+
+
 
 
 

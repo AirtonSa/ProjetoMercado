@@ -13,11 +13,13 @@ namespace Mercado.Controllers
         private readonly IEstoqueRepository estoqueRepository;
         private readonly IProdutoRepository produtoRepository;
         private readonly IUsuarioRepository usuarioRepository;
-        public EstoqueController(IEstoqueRepository estoqueRepository, IProdutoRepository produtoRepository, IUsuarioRepository usuarioRepository)
+        private readonly ITipolancamentoRepository tipolancamentoRepository;
+        public EstoqueController(IEstoqueRepository estoqueRepository, IProdutoRepository produtoRepository, IUsuarioRepository usuarioRepository, ITipolancamentoRepository tipolancamentoRepository)
         {
             this.produtoRepository = produtoRepository;
             this.estoqueRepository = estoqueRepository;
             this.usuarioRepository = usuarioRepository;
+            this.tipolancamentoRepository = tipolancamentoRepository;
         }
 
         public IActionResult Index()
@@ -91,6 +93,7 @@ namespace Mercado.Controllers
             {
                 var somaestoque = ListaEstoqueProdudo.Sum(s => s.Quantidade);
 
+
                 if (EstoqueViewModel.Quantidade <= somaestoque)
                 {
                     viewmodelestoqueretorno.PossueEstoque = true;
@@ -119,6 +122,7 @@ namespace Mercado.Controllers
         {
 
             var novalistaEstoque = new List<Estoque>();
+            
 
             foreach (var i in listaEstoqueViewModel)
             {
@@ -126,17 +130,19 @@ namespace Mercado.Controllers
                 estoque.Produto = produtoRepository.BuscaporId(i.IdProduto);
                 estoque.Usuario = usuarioRepository.BuscarUsuarioporId(1);
                 estoque.Quantidade = i.Quantidade;
-
-
+                estoque.TipoLancamento = tipolancamentoRepository.BuscarDescricaoporid(1);
+               
                 novalistaEstoque.Add(estoque);
             }
+            
+            
             
             for(var i = 0; i < novalistaEstoque.Count(); i++)
             {
                 
-
-                estoqueRepository.SalvarEstoque(novalistaEstoque[i]);
-
+                
+                estoqueRepository.SalvarListaEstoque(novalistaEstoque);
+                
                
             }
             var msg = "";

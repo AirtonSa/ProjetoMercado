@@ -15,5 +15,7 @@ namespace Mercado.Repositories
         public bool ExisteUsuario(Usuario usuario);
 
         public Usuario BuscarUsuarioporId(int id);
+
+        public bool UsuarioExiste(Usuario usuario);
     }
 }
