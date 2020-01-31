@@ -130,21 +130,23 @@ namespace Mercado.Controllers
                 estoque.Produto = produtoRepository.BuscaporId(i.IdProduto);
                 estoque.Usuario = usuarioRepository.BuscarUsuarioporId(1);
                 estoque.Quantidade = i.Quantidade;
-                estoque.TipoLancamento = tipolancamentoRepository.BuscarDescricaoporid(1);
+                estoque.TipoLancamento = tipolancamentoRepository.BuscarDescricaoporid(2);
                
                 novalistaEstoque.Add(estoque);
             }
             
             
             
-            for(var i = 0; i < novalistaEstoque.Count(); i++)
-            {
+          
                 
                 
-                estoqueRepository.SalvarListaEstoque(novalistaEstoque);
+                 estoqueRepository.SalvarListaEstoque(novalistaEstoque);
                 
                
-            }
+            
+
+            
+
             var msg = "";
             for(var i = 0; i < novalistaEstoque.Count(); i++)
             {
@@ -161,8 +163,39 @@ namespace Mercado.Controllers
 
             }
 
+            
+
             return Json(msg);
         }
-        
+        public IActionResult RetornarEstoque()
+        {
+            var listaestoque = estoqueRepository.BuscarListaEstoqueDebito(1);
+
+
+            var agrupar = listaestoque.GroupBy(p => new { ProdutoAgrupado = p.Produto, lancamento = p.TipoLancamento })
+                .Select(s => new Estoque
+                {
+                    Produto = s.Key.ProdutoAgrupado,
+                    Quantidade = s.Sum(x => x.Quantidade),
+                    TipoLancamento = s.Key.lancamento,
+                    
+
+                }).ToList();
+
+            for (var i=0;i< agrupar.Count();i++)
+            {
+                var estoquyeatual = agrupar[i].Produto;
+
+               var estoquecontado_tpLCto = estoqueRepository.BuscarEstoqueCredito(2,agrupar[i].Produto.Id);
+
+                agrupar[i].Quantidade = estoquecontado_tpLCto.Quantidade - agrupar[i].Quantidade;
+
+                agrupar[i].TipoLancamento.Descricao = "Crédito";
+
+            }
+           
+
+            return View(agrupar);
+        }
     }
 }

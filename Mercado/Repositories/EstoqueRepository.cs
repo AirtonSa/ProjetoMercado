@@ -32,7 +32,9 @@ namespace Mercado.Repositories
         public List<Estoque> BuscarListaEstoque()
         {
 
-            var Listaestoque = dbSet.ToList();
+            var Listaestoque = dbSet
+                .Include(t => t.TipoLancamento)
+                .Include(x=>x.Produto).ToList();
 
             return Listaestoque;
         }
@@ -122,7 +124,7 @@ namespace Mercado.Repositories
         {
             if(lista.Count() > 0)
             {
-                dbSet.AddRange(lista);            
+                dbSet.AddRange(lista);
                 context.SaveChanges();
 
             }
@@ -134,9 +136,34 @@ namespace Mercado.Repositories
 
             
         }
-        
-        
-        
+
+        public List<Estoque> BuscarListaEstoqueDebito(int parametro)
+        {
+
+            var Listaestoque = dbSet
+                .Include(t => t.TipoLancamento)
+                .Include(x => x.Produto)
+                .Where(t=> t.TipoLancamento.Id==parametro)
+                .ToList();
+
+            return Listaestoque;
+        }
+
+        public Estoque BuscarEstoqueCredito(int idlancamento,int produtoid)
+        {
+
+            var SomaQuantidade_Tipo_Lcto = dbSet
+                .Include(t => t.TipoLancamento)
+                .Include(x => x.Produto)
+                .Where(t => t.TipoLancamento.Id == idlancamento && t.Produto.Id== produtoid)
+                .Sum(s=>s.Quantidade);
+
+            var EstoqueCalculado = new Estoque();
+
+            EstoqueCalculado.Quantidade = SomaQuantidade_Tipo_Lcto;
+
+            return  EstoqueCalculado;
+        }
     }
 
 }

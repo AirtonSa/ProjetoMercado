@@ -27,7 +27,9 @@ namespace Mercado.Repositories
 
         public void SalvarListaEstoque(List<Estoque> lista);
 
+        public List<Estoque> BuscarListaEstoqueDebito(int parametro);
 
+        public Estoque BuscarEstoqueCredito(int idlancamento, int produtoid);
 
     }
 }

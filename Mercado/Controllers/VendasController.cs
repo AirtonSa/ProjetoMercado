@@ -206,12 +206,12 @@ namespace Mercado.Controllers
             var calculo = ListaVenda.GroupBy(x => new { idProduto = x.Produto })
                 .Select(s => new Vendas { Produto = s.Key.idProduto}).ToList();
 
-            var Calculo = ListaVenda.GroupBy(x => new { ProdutoAgrupado = x.Produto })
+            var Calculo = ListaVenda.GroupBy(x => new { ProdutoAgrupado = x.Produto }) // new novo objeto ProdutoAgrupado agrupo todos os produtos repetidos
                 .Select(s => new Vendas 
                 { 
-                  Produto = s.Key.ProdutoAgrupado, 
-                  quantidade=s.Sum(x=>Convert.ToInt32(x.quantidade)).ToString(),
-                  ValorTotal = s.Sum(x=>x.ValorTotal)
+                  Produto = s.Key.ProdutoAgrupado, // acesso todos os prpdutos agrupados
+                  quantidade=s.Sum(x=>Convert.ToInt32(x.quantidade)).ToString(), //soma de todas quantidades por produto agrupado
+                  ValorTotal = s.Sum(x=>x.ValorTotal) //soma de valor total por produto agrupado
                 }).ToList(); 
 
             return View(Calculo);
