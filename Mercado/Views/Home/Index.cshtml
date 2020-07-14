@@ -8,15 +8,15 @@
 
     <div class="Entrar">
         <h1 class="display-4">Mercado</h1>
+        <br />
 
-        <form id="Formulario" class="Entrarform" action="Login/Acessar">
+        <form id="Formulario" method="post" class="Entrarform" action="Login/Acessar">
             <label>Nome</label>
-            <input type="text" name="Nome" id="Nome" value="Master" Placeholder="Digite seu Nome" /> <br />
+            <input type="text" name="Nome" id="Nome" Placeholder="Digite seu Usuário" /> <br />
             <label>Senha</label>
-            <input type="password" name="Senha" id="Senha" value="123" placeholder="Senha" /> <br />
+            <input type="password" name="Senha" id="Senha" placeholder="Digite sua Senha" /> <br />
 
             <button id="entrar" class="btn btn-success" type="submit">Entrar</button> <br />
-
 
         </form>
 
@@ -30,6 +30,9 @@
 
 
 </div>
+
+
+@*style="margin-left: 100%"*@
 
 @section Scripts{
     <script>
@@ -68,35 +71,6 @@
 
         });
 
-
-        function ss() {
-            debugger;
-
-
-            if ($('#inputNome').val() != null && $('#inputSenha').val() != null) {
-
-                var dadosUsusario =
-                {
-                    Nome: $('#inputNome').val(),
-                    Senha: $('#inputSenha').val(),
-                }
-                debugger;
-                $.ajax({
-                    url: '/Login/JqueryAcessar',
-                    type: 'POST',
-                    data: JSON.stringify(dadosUsusario),
-                    contentType: 'application/json'
-                }).done(function (msg) {
-                    
-                    alert(msg);
-                    debugger;
-                });
-
-
-            }
-            
-        }
-
         $("#nav").hide();
         $("#mer").hide();
 
@@ -134,13 +108,6 @@
             }
 
         });
-
-
-
-
-
-
-
 
 
 

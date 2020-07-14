@@ -19,17 +19,34 @@ namespace Mercado.Banco
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Usuario>().HasKey(t => t.Id);
-            
 
-            modelBuilder.Entity<Vendas>().HasKey(t => t.Id);
-            modelBuilder.Entity<Vendas>().HasOne(t => t.Usuario);
-            modelBuilder.Entity<Vendas>().HasOne(t => t.Produto);
-            
+            modelBuilder.Entity<Produto>().HasKey(t => t.Id);
+            modelBuilder.Entity<Produto>().Property(t => t.Preco).HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<Produto>().Property(t => t.Nome).HasColumnType("varchar(250)");
+            //modelBuilder.Entity<Produto>().Property(t => t.Codigo).HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<Pedido>().HasKey(t => t.Id);
+            modelBuilder.Entity<Pedido>().Property(t => t.ValorTotal).HasColumnType("decimal(18,2)");
+            modelBuilder.Entity<Pedido>().HasMany(t => t.Itens).WithOne(w=>w.Pedido);
+            modelBuilder.Entity<Pedido>().HasOne(t => t.Usuario);
+            modelBuilder.Entity<Pedido>().HasOne(t => t.Status);
+            //modelBuilder.Entity<Vendas>().Property(t => t.ValorTotal).HasColumnType("decimal(18,2)");
+
+            modelBuilder.Entity<ItemPedido>().HasKey(t => t.Id);
+            modelBuilder.Entity<ItemPedido>().HasOne(t => t.Produto);
+            modelBuilder.Entity<ItemPedido>().Property(t => t.quantidade).HasColumnType("varchar(20)");
+            //modelBuilder.Entity<ItemPedido>().HasOne(t => t.Pedido);
 
             modelBuilder.Entity<Estoque>().HasKey(t => t.Id);
             modelBuilder.Entity<Estoque>().HasOne(t => t.Produto);
             modelBuilder.Entity<Estoque>().HasOne(t => t.Usuario);
             modelBuilder.Entity<Estoque>().HasOne(t => t.TipoLancamento);
+
+            modelBuilder.Entity<StatusPedido>().HasKey(t => t.Id);
+            modelBuilder.Entity<StatusPedido>().Property(t => t.Descricao).HasColumnType("varchar(50)");
+
+            modelBuilder.Entity<TipoLancamento>().HasKey(t => t.Id);
+            modelBuilder.Entity<TipoLancamento>().Property(t => t.Descricao).HasColumnType("varchar(50)");
 
             //modelBuilder.Entity<Usuario>().HasMany(t=>t.res)
 

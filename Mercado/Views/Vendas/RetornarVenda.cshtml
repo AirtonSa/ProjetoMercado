@@ -5,11 +5,11 @@
     @using Mercado.Models
 }
 
-@model List<Vendas>
+@model Pedido
 
 <h1>Relatório de Vendas</h1>
 <br />
-@if (Model != null && Model.Count > 0)
+@if (Model != null)
 {
 
     <table class="table">
@@ -27,16 +27,17 @@
             @{
                 var t = 0;
             }
-            @foreach (var i in Model)
+            @foreach (var i in Model.Itens)
             {
                 t++;
 
                 <tr>
                     <td>@t</td>
                     <td> @i.Produto.Nome</td>
-                    <td>@i.ValorTotal</td>
-                    <td>@i.quantidade</td>
-                </tr>
+                    <td>@i.Produto.Preco</td>
+                    <td>@(Convert.ToInt32(@i.quantidade)*i.Produto.Preco)</td>
+  
+                  </tr>
             }
 
         </tbody>
@@ -54,6 +55,6 @@
 }
 else
 {
- <p>Nenhuma lista encontrada</p>
+ <p>Nenhuma Venda encontrada</p>
 }
 

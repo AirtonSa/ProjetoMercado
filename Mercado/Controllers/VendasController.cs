@@ -4,25 +4,36 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mercado.Models;
 using Mercado.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mercado.Controllers
 {
     public class VendasController : Controller
     {
-        private readonly IVendasRepository vendasRepository;
+        private readonly IPedidoRepository vendasRepository;
         private readonly IProdutoRepository produtoRepository;
+        private readonly IPedidoRepository pedidooRepository;
         private readonly IEstoqueRepository estoqueRepository;
         private readonly IUsuarioRepository usuarioRepository;
         private readonly ITipolancamentoRepository tipolancamentoRepository;
+        private readonly IHttpContextAccessor contextAccessor;
+        private readonly IStatusPedidoRepository statuspedidoRepository;
+        private readonly IItemPedidoRepository itemPedidoRepository;
 
-        public VendasController(IVendasRepository vendasRepository, IProdutoRepository produtoRepository, IEstoqueRepository estoqueRepository, IUsuarioRepository usuarioRepository, ITipolancamentoRepository tipolancamentoRepository)
+        public VendasController(IPedidoRepository vendasRepository, IProdutoRepository produtoRepository, IEstoqueRepository estoqueRepository, 
+            IUsuarioRepository usuarioRepository, ITipolancamentoRepository tipolancamentoRepository, IHttpContextAccessor contextAccessor,
+            IPedidoRepository pedidooRepository, IStatusPedidoRepository statuspedidoRepository, IItemPedidoRepository itemPedidoRepository)
         {
             this.vendasRepository = vendasRepository;
             this.produtoRepository = produtoRepository;
             this.estoqueRepository = estoqueRepository;
             this.usuarioRepository = usuarioRepository;
             this.tipolancamentoRepository = tipolancamentoRepository;
+            this.contextAccessor = contextAccessor;
+            this.pedidooRepository = pedidooRepository;
+            this.statuspedidoRepository = statuspedidoRepository;
+            this.itemPedidoRepository = itemPedidoRepository;
         }
 
         public IActionResult Index()
@@ -48,30 +59,29 @@ namespace Mercado.Controllers
             //    ValorTotal = v.ValorTotal
             //}).ToList();
             #endregion
-            var listaDeVenda = new List<Vendas>();
+            var listaDeVenda = new List<Pedido>();
             var NovaListaEstoque = new List<Estoque>();
 
             for(var i = 0; i <listaViewModel.Count(); i++)
             {
-                var venda = new Vendas();
+                var venda = new Pedido();
                 var estoque = new Estoque();
                
-                venda.Produto = produtoRepository.BuscaporId(Convert.ToInt32(listaViewModel[i].idProduto));
+                //venda.Produto = produtoRepository.BuscaporId(Convert.ToInt32(listaViewModel[i].idProduto));
                 venda.Usuario = usuarioRepository.BuscarUsuarioporId(1);
-                venda.quantidade = (listaViewModel[i].quantidade);
-                venda.ValorTotal = listaViewModel[i].ValorTotal;
+                //venda.quantidade = (listaViewModel[i].quantidade);
+                //venda.ValorTotal = listaViewModel[i].ValorTotal;
                 listaDeVenda.Add(venda);
 
 
                 estoque.TipoLancamento = tipolancamentoRepository.BuscarDescricaoporid(2);
-                estoque.Produto = venda.Produto;
-                estoque.Quantidade = Convert.ToInt32(venda.quantidade);
+                //estoque.Produto = venda.Produto;
+                //estoque.Quantidade = Convert.ToInt32(venda.quantidade);
                 estoque.Usuario = venda.Usuario;
                 NovaListaEstoque.Add(estoque);
 
 
-                var estoquecomparametro = new Estoque(Convert.ToInt32(venda.quantidade), venda.Produto, venda.Usuario,
-                    tipolancamentoRepository.BuscarDescricaoporid(2));
+               // var estoquecomparametro = new Estoque(Convert.ToInt32(venda.quantidade), venda.Produto, venda.Usuario,tipolancamentoRepository.BuscarDescricaoporid(2));
 
                 
                 
@@ -118,7 +128,7 @@ namespace Mercado.Controllers
 
             }
 
-            var lista = new List<Vendas>();
+            
             #region comentario
             //foreach(var i in listaViewModel)
             //{
@@ -203,18 +213,91 @@ namespace Mercado.Controllers
         {
             var ListaVenda = vendasRepository.BuscarListaVenda();
 
-            var calculo = ListaVenda.GroupBy(x => new { idProduto = x.Produto })
-                .Select(s => new Vendas { Produto = s.Key.idProduto}).ToList();
+            //var calculo = ListaVenda.GroupBy(x => new { idProduto = x.Id })
+            //    .Select(s => new Vendas { Produto = s.Key.idProduto}).ToList();
 
-            var Calculo = ListaVenda.GroupBy(x => new { ProdutoAgrupado = x.Produto }) // new novo objeto ProdutoAgrupado agrupo todos os produtos repetidos
-                .Select(s => new Vendas 
-                { 
-                  Produto = s.Key.ProdutoAgrupado, // acesso todos os prpdutos agrupados
-                  quantidade=s.Sum(x=>Convert.ToInt32(x.quantidade)).ToString(), //soma de todas quantidades por produto agrupado
-                  ValorTotal = s.Sum(x=>x.ValorTotal) //soma de valor total por produto agrupado
-                }).ToList(); 
+            //var Calculo = ListaVenda.GroupBy(x => new { ProdutoAgrupado = x.Produto }) // new novo objeto ProdutoAgrupado agrupo todos os produtos repetidos
+            //    .Select(s => new Vendas 
+            //    { 
+            //      Produto = s.Key.ProdutoAgrupado, // acesso todos os prpdutos agrupados
+            //      quantidade=s.Sum(x=>Convert.ToInt32(x.quantidade)).ToString(), //soma de todas quantidades por produto agrupado
+            //      ValorTotal = s.Sum(x=>x.ValorTotal) //soma de valor total por produto agrupado
+            //    }).ToList(); 
 
-            return View(Calculo);
+            return View();
+        }
+        
+        [HttpGet]
+        public IActionResult Addcarrinho()
+        {
+            var IdUsuario = Convert.ToInt32(GetUsuarioCashId());
+            var x = pedidooRepository.GetByIidUsuarioPedidoAberto(IdUsuario).Select(s=>s.Itens).FirstOrDefault();            
+            return Json(x.Count());
+        }
+
+        [HttpPost]
+        public IActionResult Addcarrinho([FromBody]int IdProduto )
+        {
+            var IdUsuario = Convert.ToInt32(GetUsuarioCashId());
+
+            var ListaVenda = pedidooRepository.GetByIidUsuarioPedidoAberto(IdUsuario);
+
+            var novoitem = new ItemPedido();
+           
+            novoitem.Produto = produtoRepository.BuscaporId(IdProduto);
+            novoitem.quantidade = 1.ToString();
+            
+            if (!ListaVenda.Any())
+            {
+                var novoPedido = new Pedido();
+
+                novoPedido.Usuario = usuarioRepository.BuscarUsuarioporId(IdUsuario);
+                novoPedido.Status = statuspedidoRepository.BuscarDescricaoporid(1);
+                novoPedido.ValorTotal = Convert.ToUInt32(novoitem.quantidade) * novoitem.Produto.Preco;
+                pedidooRepository.SalvarVenda(novoPedido);
+
+                novoitem.Pedido = novoPedido;
+
+                itemPedidoRepository.SalvarItem(novoitem);
+
+            }
+            else if (ListaVenda[0].Itens.Where(x=>x.Produto==novoitem.Produto).Count()>0)
+            {
+                var itemexistente = ListaVenda[0].Itens.Where(x => x.Produto == novoitem.Produto).FirstOrDefault();
+                var qtd = Convert.ToInt32(itemexistente.quantidade);
+                itemexistente.quantidade = (qtd+1).ToString();
+                ListaVenda[0].ValorTotal = ListaVenda[0].Itens.Sum(s => Convert.ToInt32(s.quantidade) * s.Produto.Preco);
+                itemPedidoRepository.SalvarItem(itemexistente);
+                pedidooRepository.SalvarVenda(ListaVenda[0]);
+                //ListaVenda = pedidooRepository.GetByIidUsuarioPedidoAberto(IdUsuario);
+            }
+            else
+            {
+                novoitem.Pedido = ListaVenda[0];
+                itemPedidoRepository.SalvarItem(novoitem);
+                ListaVenda[0].Itens.Add(novoitem);
+                ListaVenda[0].ValorTotal = ListaVenda[0].Itens.Sum(s => Convert.ToInt32(s.quantidade) * s.Produto.Preco);
+                pedidooRepository.SalvarVenda(ListaVenda[0]);
+                
+            }
+
+            //var calculo = ListaVenda.GroupBy(x => new { idProduto = x.Id })
+            //    .Select(s => new Vendas { Produto = s.Key.idProduto}).ToList();
+
+            //var Calculo = ListaVenda.GroupBy(x => new { ProdutoAgrupado = x.Produto }) // new novo objeto ProdutoAgrupado agrupo todos os produtos repetidos
+            //    .Select(s => new Vendas 
+            //    { 
+            //      Produto = s.Key.ProdutoAgrupado, // acesso todos os prpdutos agrupados
+            //      quantidade=s.Sum(x=>Convert.ToInt32(x.quantidade)).ToString(), //soma de todas quantidades por produto agrupado
+            //      ValorTotal = s.Sum(x=>x.ValorTotal) //soma de valor total por produto agrupado
+            //    }).ToList(); 
+
+            return Json(new CarrinhoViewModel(ListaVenda[0].Itens.Count().ToString(),true));
+        }
+
+        public int? GetUsuarioCashId()
+        {
+            return contextAccessor.HttpContext.Session.GetInt32("Id");
         }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 
 namespace Mercado
@@ -40,23 +41,33 @@ namespace Mercado
           
 
            // services.AddControllersWithViews();
-            services.AddDistributedMemoryCache();
-            services.AddSession();
+            //services.AddDistributedMemoryCache();
+            services.AddSession(options => {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
             services.AddHttpContextAccessor();
+            
 
            
             string connectionString = Configuration.GetConnectionString("Default");
 
             services.AddDbContext<AplicationContext>(options =>
-                options.UseSqlServer(connectionString));
+                //options.UseSqlServer(connectionString)); //SqlServer
+                options.UseMySql(connectionString));
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddTransient<IUsuarioRepository, UsuarioRepository>();
             //services.AddTransient<IDataService, Dataser>();
             services.AddTransient<IDtService, Dtservice>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
-            services.AddTransient<IVendasRepository, VendasRepository>();
+            services.AddTransient<IPedidoRepository, PedidoRepository>();
             services.AddTransient<IEstoqueRepository, EstoqueRepository>();
             services.AddTransient<ITipolancamentoRepository, TipolancamentoRepository>();
+            services.AddTransient<IStatusPedidoRepository, StatusPedidoRepository>();
+            services.AddTransient<IItemPedidoRepository, ItemPedidoRepository>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             services.AddControllersWithViews().AddRazorRuntimeCompilation();

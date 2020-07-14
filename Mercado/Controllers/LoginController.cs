@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mercado.Models;
 using Mercado.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mercado.Controllers
@@ -11,9 +12,13 @@ namespace Mercado.Controllers
     public class LoginController : Controller
     {
         private readonly IUsuarioRepository usuarioRepository;
-        public LoginController(IUsuarioRepository usuarioRepository)
+        private readonly IHttpContextAccessor contextAccessor;
+        private readonly IProdutoRepository produtoRepository;
+        public LoginController(IUsuarioRepository usuarioRepository, IHttpContextAccessor contextAccessor, IProdutoRepository produtoRepository)
         {
             this.usuarioRepository = usuarioRepository;
+            this.contextAccessor = contextAccessor;
+            this.produtoRepository = produtoRepository;
         }
 
         public IActionResult Index()
@@ -21,16 +26,28 @@ namespace Mercado.Controllers
             return View();
         }
 
+    
         public IActionResult Acessar(Usuario usuario)
         {
 
             if (usuario.Nome != null && usuario.Senha != null)
             {
+                var iss = contextAccessor.HttpContext.Session.GetInt32("Id");
+
                 var usuarionome = usuarioRepository.ExisteUsuario(usuario);
 
+                var userencontrado = usuarioRepository.PorNome(usuario);
                 if (usuarionome)
                 {
-                    return View();
+                    contextAccessor.HttpContext.Session.SetInt32("Id", userencontrado.Id);
+                    var teste = contextAccessor.HttpContext.Session.GetInt32("Id");
+                    var listaproduto = new List<Produto>();
+
+                    for (int i=0; i<7; i++)
+                    {
+                        listaproduto.AddRange(produtoRepository.BuscarListaDeProduto());
+                    }
+                    return View(listaproduto);
                 }
                 else
                 {
@@ -125,6 +142,27 @@ namespace Mercado.Controllers
             }
 
             return Json(msg);
+        }
+
+        public int? GetUsuarioCashId()
+        {
+            return contextAccessor.HttpContext.Session.GetInt32("Id");
+        }
+
+        public void SetUsuarioCashId(int IdUsuario)
+        {
+            contextAccessor.HttpContext.Session.SetInt32("Id", IdUsuario);
+            //contextAccessor.HttpContext.Session.Set()
+
+        }
+
+        public void ClearCashId()
+        {
+            var id = contextAccessor.HttpContext.Session.GetInt32("Id");
+            contextAccessor.HttpContext.Session.Clear();
+
+            id = contextAccessor.HttpContext.Session.GetInt32("Id");
+
         }
     }
 }

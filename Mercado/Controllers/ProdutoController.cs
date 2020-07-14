@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mercado.Models;
 using Mercado.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Mercado.Controllers
@@ -13,17 +14,26 @@ namespace Mercado.Controllers
     public class ProdutoController : Controller
     {
         private readonly IProdutoRepository produtoRepository;
-        public ProdutoController(IProdutoRepository produtoRepository)
+        private readonly IHttpContextAccessor contextAccessor;
+        public ProdutoController(IProdutoRepository produtoRepository, IHttpContextAccessor contextAccessor)
         {
             this.produtoRepository = produtoRepository;
+            this.contextAccessor = contextAccessor;
         }
 
         public IActionResult Index()
         {
+            var sessao = contextAccessor.HttpContext.Session.GetInt32("Id");
+            var Lista = produtoRepository.BuscarListaDeProduto();
+            return View(Lista);
+        }
+
+        [HttpGet]
+        public IActionResult listar()
+        {
             var Lista = produtoRepository.BuscarListaDeProduto();
 
-
-            return View(Lista);
+            return Json(Lista);
         }
 
         public IActionResult CadastrarProduto()
@@ -56,11 +66,8 @@ namespace Mercado.Controllers
                     var msg = "Produto Cadastrado";
                     @ViewBag.msg = msg;
 
-                }     
+                }                 
 
-               
-
-                 
             }
             else
             {
@@ -73,10 +80,7 @@ namespace Mercado.Controllers
                 {
                   var msg = "Campo preço não pode ser vazio";
                   @ViewBag.msg = msg;
-
-                    
-
-                       
+ 
                 }
             }
 
@@ -94,16 +98,7 @@ namespace Mercado.Controllers
         }
         //Aqui Vai o metodo ajax
 
-            
-
         
 
-        
-
-
-
-       
-
-       
     }
 }

@@ -15,4 +15,19 @@ namespace Mercado.Models
 
         public decimal ValorTotal { get; set; }
     }
+
+    public class CarrinhoViewModel
+    {
+        public CarrinhoViewModel(string qtd, bool sucesso)
+        {
+            quantidadeitens = qtd;
+            this.sucesso = sucesso;
+        }
+
+        public string quantidadeitens { get; set; }
+
+        public bool sucesso { get; set; }
+
+ 
+    }
 }

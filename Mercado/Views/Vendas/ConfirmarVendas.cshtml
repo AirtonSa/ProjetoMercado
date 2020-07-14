@@ -4,7 +4,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Compras</h1>
+<h1 class="Titulo">Vender</h1>
+<br />
 
 <div id="DivVendas">
 
@@ -57,49 +58,6 @@
                 </tr>
             </thead>
             <tbody>
-                @*<tr>*@
-                @*<td hidden="hidden">
-                            1
-                        </td>
-                        <td>
-                            3
-                        </td>
-                        <td>
-                            Arroz 1kg
-                        </td>
-                        <td>
-                            10,00
-                        </td>
-                    </tr>
-                    <tr>
-                        <td hidden="hidden">
-                            1
-                        </td>
-                        <td>
-                            3
-                        </td>
-                        <td>
-                            Arroz 1kg
-                        </td>
-                        <td>
-                            10,00
-                        </td>
-                    </tr>
-                    <tr>
-                        <td hidden="hidden">
-                            1
-                        </td>
-                        <td>
-                            3
-                        </td>
-                        <td>
-                            Arroz 1kg
-                        </td>
-                        <td>
-                            10,00
-                        </td>*@
-                @*</tr>*@
-
             </tbody>
         </table>
         <div id="Total">
@@ -122,6 +80,20 @@
 
 @section Scripts{
     <script>
+
+        $("#Produto1").keyup(function (e) {
+            
+            var t = e.keyCode;
+            if (t === 13) {
+                $(this).val();
+                debugger;
+                //alert($(this).val());
+            }
+           
+
+           
+        });
+
 
         $("#Selecionar").click(function () {
 
@@ -220,13 +192,6 @@
 
             Body.append(Linha); //inclui a linha no corpo do paull
 
-            debugger;
-
-
-
-
-
-
         };
 
 
@@ -315,13 +280,13 @@
 
             Body.each(function () {
                 var Total = parseFloat($('#ValorTotal').html().replace(',', '.'));
-                
+
                 var quantidade = parseFloat($(this).val());
                 var valor = parseFloat($(this).parents('tr').find('td.valor').html().replace(',', '.'));
                 var multiplicacao = parseFloat(quantidade * valor);
                 Total += multiplicacao;
                 $('#ValorTotal').html(Total.toFixed(2))
-               
+
             })
 
         }
@@ -391,7 +356,7 @@
 
                         var novatdbtn = $("<td>");
 
-                        var botao = $("<button>").html('Excluir').attr('onclick', 'Excluir(this)').attr('class' , 'btn btn-success');
+                        var botao = $("<button>").html('Excluir').attr('onclick', 'Excluir(this)').attr('class', 'btn btn-success');
 
                         novatdbtn.append(botao);
 
@@ -431,11 +396,11 @@
                                 $("#Comprado").attr('disabled', 'true');
 
                             } else {
-                                
+
                                 $("#Comprado").removeAttr('disabled');
                                 debugger;
                             }
-                            
+
 
 
                         }
@@ -607,7 +572,7 @@
         }
 
 
-                       
+
 
 
 

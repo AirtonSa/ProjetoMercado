@@ -6,20 +6,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Mercado.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Mercado.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IHttpContextAccessor contextAccessor;
+        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor contextAccessor)
         {
             _logger = logger;
+            this.contextAccessor = contextAccessor;
         }
 
         public IActionResult Index()
         {
+            var teste = contextAccessor.HttpContext.Session.GetInt32("Id");
             return View();
         }
 

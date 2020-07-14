@@ -2,72 +2,75 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0366d6;
 }
 
 .btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 .border-top {
-  border-top: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
 }
+
 .border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
 button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+    font-size: 1rem;
+    line-height: inherit;
 }
 
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
+
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+    display: flex;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap;
+    line-height: 60px; /* Vertically center the text there */
 }
 
 
@@ -78,41 +81,229 @@ body {
     width: 100%;
     padding: 70px 0;
 }
+
 .Entrarform {
-    display: flex;    
+    display: flex;
     flex-direction: column;
-    
-    
 }
+
+.Titulo {
+    width: 100%;
+    text-align: center;
+}
+
 #DivVendas {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
-    width: 80%;
+    width: 100%;
 }
+
+@media (max-width:768px) {
+    #DivVendas {
+        /*display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;*/
+        flex-direction: column;
+        /*width:100px;*/
+    }
+}
+
 .btnn {
     border-radius: 20px;
     background: #1b6ec2;
     font-size: 18px;
 }
-.inpuQtd{
+
+.inpuQtd {
     width: 50px;
     line-height: 28px;
     border-right: 10px;
     text-align: center;
 }
+
 #btnestoque {
-   margin-left: 500px;
-   
+    margin-left: 500px;
 }
- 
+
 
 .btn {
     border-radius: 50px
 }
 
-input{
-
+input {
     border-radius: 10px;
 }
 
+.BoxShadow {
+    box-shadow: 3px 3px 10px rgba(0,0,0,.3);
+    /*box-shadow: inset 0 0 1em gold, 0 0 1em red;*/
+}
+
+.BackGroudGradientes {
+    background: linear-gradient(#fF90,#fff);
+}
+
+.rodape {
+    display: flex;
+}
+
+.rodapePrincipal {
+    display: flex;
+    /*flex-direction: column;
+    flex-wrap: wrap;*/
+    flex-flow: column wrap;
+    height: 150px;
+}
+
+.testando {
+    margin-left: 100%;
+}
+
+.img-produto-carrossel {
+    width: 100%;
+}
+
+.left.carousel-control,
+.right.carousel-control {
+    background-image: none;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.carousel-inner .item img[src$=".svg"] {
+    width: 100%;
+}
+
+.carousel-caption p {
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+/* Hide/rearrange for smaller screens */
+@media screen and (max-width: 767px) {
+    /* Hide captions */
+    .carousel-caption {
+        display: none;
+    }
+}
+
+.produto-nome {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.produto-footer {
+    max-height: 140px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.navflx {
+    display: flex;
+    flex-direction: column;
+}
+
+.navul {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 70px 0;
+}
+
+.CarIcn {
+    padding: .7rem;
+    background-color: #b3d7ff;
+    border-radius: 10px;
+}
+
+.Carcolors {
+    background-color: #b3d7ff;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0, 0.4);
+    z-index: 4;
+}
+
+.Fdin {
+    position: relative;
+    margin-top: 100px;
+    border-radius: 50%;
+    background-color: cornflowerblue;
+    width: 50px;
+    height: 50px;
+    left: 0px;
+    top: 10px;
+    /*animation: fadein 10s infinite alternate;*/
+    animation: fadeinanime 5s;
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeinanime {
+    
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+
+    100% {
+        /*background-color: red;*/
+        left: 0px;
+        top: -2500px;
+       
+    }
+}
+
+
+.ball {
+    margin-top: 50px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    background-color: cornflowerblue;
+    border: 2px solid #999;
+    animation: bounce 1s infinite alternate;
+    -webkit-animation: bounce 1s infinite alternate;
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(-15px);
+    }
+}
+
+@-webkit-keyframes bounce {
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(-15px);
+    }
+}

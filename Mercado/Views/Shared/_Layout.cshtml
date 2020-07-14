@@ -4,20 +4,36 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Mercado</title>
+
+
+    @*<link rel="stylesheet" href="~/lib/my/bootstrap/dist/dist/css/bootstrap.min.css" />*@
+    @*<link rel="stylesheet" href="~/lib/jquery/dist/jquery.min.js" />*@
+
+    @*bootstrap 337*@
+
+    @*<link rel="stylesheet" href="~/lib/my/bootstrap/dist/dist/css/bootstrap.min.css" />*@
+
+    @*--final bt 337*@
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/js/bootstrap.min.js" />*@
+
     <link rel="stylesheet" href="~/css/site.css" />
+
+
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3" >
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-               
+
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" >
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse ">
                     <ul id="nav" class="navbar-nav flex-grow-1">
                         <li>
                             <a id="mer" class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Mercado</a>
@@ -48,8 +64,18 @@
                         <li>
                             <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">Logout</a>
                         </li>
+                        <li>
+
+                            <i class="fa fa-shopping-cart CarIcn">
+                                <span class="badge badge-light">0</span>
+                                <span class="sr-only">unread messages</span>
+                            </i>
+
+                        </li>
 
                     </ul>
+
+
                 </div>
             </div>
         </nav>
@@ -60,14 +86,32 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted ">
+
+
+
+
         <div class="container">
+            <div class="rodapePrincipal">
+
+                <h6>Produtos</h6>
+                <a>Padaria</a>
+                <a>Açougue</a>
+                <h6>Parceiros</h6>
+                <a>Assaí Atacadista</a>
+                <a>WallMart</a>
+
+            </div>
             &copy; 2020 - Mercado - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
+    @*<script src="~/lib/jquery/dist/jquery.js"></script>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jQuery-Mask-Plugin-master/dist/jquery.mask.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>

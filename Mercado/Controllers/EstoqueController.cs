@@ -42,6 +42,7 @@ namespace Mercado.Controllers
 
                 Estoque.Produto = produtoRepository.BuscaporId(Estoque.Produto.Id);
                 Estoque.Usuario = usuarioRepository.PorId(1);
+                Estoque.TipoLancamento = tipolancamentoRepository.BuscarDescricaoporid(1);
 
                 //var antesdesalvar = estoqueRepository.PorProduto(Estoque.Produto);
                 var buscar_Produto_por_Id = estoqueRepository.BuscarPorIdDoPRoduto(Estoque.Produto.Id);
@@ -130,23 +131,13 @@ namespace Mercado.Controllers
                 estoque.Produto = produtoRepository.BuscaporId(i.IdProduto);
                 estoque.Usuario = usuarioRepository.BuscarUsuarioporId(1);
                 estoque.Quantidade = i.Quantidade;
-                estoque.TipoLancamento = tipolancamentoRepository.BuscarDescricaoporid(2);
+                estoque.TipoLancamento = tipolancamentoRepository.BuscarDescricaoporid(1);
                
                 novalistaEstoque.Add(estoque);
             }
-            
-            
-            
-          
-                
-                
+                   
                  estoqueRepository.SalvarListaEstoque(novalistaEstoque);
                 
-               
-            
-
-            
-
             var msg = "";
             for(var i = 0; i < novalistaEstoque.Count(); i++)
             {
@@ -169,7 +160,7 @@ namespace Mercado.Controllers
         }
         public IActionResult RetornarEstoque()
         {
-            var listaestoque = estoqueRepository.BuscarListaEstoqueDebito(1);
+            var listaestoque = estoqueRepository.BuscarListaEstoqueDebito(2);
 
 
             var agrupar = listaestoque.GroupBy(p => new { ProdutoAgrupado = p.Produto, lancamento = p.TipoLancamento })
@@ -186,7 +177,7 @@ namespace Mercado.Controllers
             {
                 var estoquyeatual = agrupar[i].Produto;
 
-               var estoquecontado_tpLCto = estoqueRepository.BuscarEstoqueCredito(2,agrupar[i].Produto.Id);
+               var estoquecontado_tpLCto = estoqueRepository.BuscarEstoqueCredito(1,agrupar[i].Produto.Id);
 
                 agrupar[i].Quantidade = estoquecontado_tpLCto.Quantidade - agrupar[i].Quantidade;
 
